@@ -10,6 +10,10 @@ Build an application (web or mobile) that allows users to track their crypto hol
   - [ ] USD
   - [ ] BRL
 - [ ] Profit/loss tracking
+  - [ ] USD
+  - [ ] BRL
 - [ ] transaction history
 - [ ] asset allocation visualization 
+  - [ ] USD
+  - [ ] BRL
 - [ ] watchlist
