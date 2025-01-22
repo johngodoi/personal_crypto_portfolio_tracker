@@ -3,7 +3,8 @@
         "native_currency": {
             "name": "Ether",
             "symbol": "ETH",
-            "decimals": 18
+            "decimals": 18,
+            "coin_gecko_id": "ethereum"
         },
         "fungible_tokens": {
             "USDC": {

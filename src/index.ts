@@ -44,6 +44,40 @@ app.get('/prices/:symbol', async (req: Request, res: Response) => {
     }
 });
 
+app.get('/portfolio/:address', async (req: Request, res: Response) => {
+    const walletAddress = req.params.address;
+
+    if (!walletAddress || !isAddress(walletAddress)) {
+        res.status(400).json({ error: 'Invalid wallet address' });
+        return;
+    }
+
+    try {
+        const tokenList = process.env.TOKENS_OF_INTEREST!.split(",");
+        const addressBalances = await getAddressBalances(walletAddress, tokenList);
+        const ethBalanceValue = Number(addressBalances.ethBalance) * (await getQuote('eth', 'usd')).price!;
+
+        const tokenBalanceValues = await Promise.all(addressBalances.tokenBalances.map(async (tokenBalance) => {
+            const quote = await getQuote(tokenBalance.symbol, 'usd');
+            return {
+                ...tokenBalance,
+                value: quote.price! * parseFloat(tokenBalance.balance),
+            };
+        }));
+        const portfolio = {
+            address: walletAddress,
+            ethBalance: addressBalances.ethBalance,
+            ethBalanceValue,
+            tokenBalanceValues
+        };
+        res.json(portfolio);
+
+    } catch (error: any) {
+        console.error("Error:", error);
+        res.status(500).json({ error: `An error occurred: ${error.message}` });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });

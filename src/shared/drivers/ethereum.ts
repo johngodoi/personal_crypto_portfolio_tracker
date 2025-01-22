@@ -13,14 +13,22 @@ const publicClient = createPublicClient({
     transport: http(alchemyRpcUrl),
 });
 
+function isNative(tokenSymbol: string): boolean {
+    return tokenSymbol.toLowerCase() === ETHEREUM.native_currency.symbol.toLowerCase();
+}
+
 function getContractAddress(tokenSymbol: string): string {
     const fungibleTokens = ETHEREUM.fungible_tokens as FungibleTokens;
     return fungibleTokens[tokenSymbol].contract_address;
 }
 
 function getCoinIdFromSymbol(symbol: string): string {
+    const isNativeCurrency = isNative(symbol);
+    if (isNativeCurrency) {
+        return ETHEREUM.native_currency.coin_gecko_id;
+    }
     const fungibleTokens = ETHEREUM.fungible_tokens as FungibleTokens;
-    return fungibleTokens[symbol].coin_gecko_id;
+    return fungibleTokens[symbol.toUpperCase()].coin_gecko_id;
 }
 
 async function getEthBalance(walletAddress: string): Promise<string> {
@@ -51,4 +59,4 @@ async function getTokenDecimals(contractAddress: string): Promise<number> {
     }) as number;
 }
 
-export { getEthBalance, getTokenBalance, getTokenDecimals, isAddress, getContractAddress, getCoinIdFromSymbol };
+export { getEthBalance, getTokenBalance, getTokenDecimals, isAddress, getContractAddress, getCoinIdFromSymbol, isNative };
