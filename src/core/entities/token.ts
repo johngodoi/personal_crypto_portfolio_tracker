@@ -17,4 +17,13 @@ interface EthereumTokensPortfolio {
 
 interface EthereumAddressBalances { ethBalance: string, tokenBalances: EthereumTokensPortfolio };
 
-export { TokenBalance, EthereumTokensPortfolio, EthereumAddressBalances, FungibleTokens };
+interface CoinGeckoToken {
+    id: string;
+    symbol: string;
+    name: string;
+    platforms?: {
+        ethereum?: string;
+    };
+}
+
+export { TokenBalance, EthereumTokensPortfolio, EthereumAddressBalances, FungibleTokens, CoinGeckoToken };
