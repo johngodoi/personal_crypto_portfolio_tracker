@@ -1,7 +1,7 @@
 
 import { createPublicClient, http, getAddress, isAddress, formatUnits } from 'viem';
 import { mainnet } from 'viem/chains';
-import ERC20 from "../../../abis/ERC20.json";
+import { abi } from "../../../abis/ERC20.json";
 
 const ETHER_DECIMALS = 18;
 
@@ -28,7 +28,7 @@ async function getTokenBalance(walletAddress: string, contractAddress: string): 
 async function getTokenBalanceOf(walletAddress: string, contractAddress: string): Promise<bigint> {
     return await publicClient.readContract({
         address: getAddress(contractAddress),
-        abi: ERC20.abi,
+        abi,
         functionName: 'balanceOf',
         args: [getAddress(walletAddress)],
     }) as bigint;
@@ -37,7 +37,7 @@ async function getTokenBalanceOf(walletAddress: string, contractAddress: string)
 async function getTokenDecimals(contractAddress: string): Promise<number> {
     return await publicClient.readContract({
         address: getAddress(contractAddress),
-        abi: ERC20.abi,
+        abi,
         functionName: 'decimals',
     }) as number;
 }
