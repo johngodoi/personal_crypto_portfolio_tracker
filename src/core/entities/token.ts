@@ -8,6 +8,7 @@ interface TokenBalance {
 type FungibleTokens = {
     [symbol: string]: {
         contract_address: string;
+        coin_gecko_id: string;
     };
 };
 
@@ -17,13 +18,4 @@ interface EthereumTokensPortfolio {
 
 interface EthereumAddressBalances { ethBalance: string, tokenBalances: EthereumTokensPortfolio };
 
-interface CoinGeckoToken {
-    id: string;
-    symbol: string;
-    name: string;
-    platforms?: {
-        ethereum?: string;
-    };
-}
-
-export { TokenBalance, EthereumTokensPortfolio, EthereumAddressBalances, FungibleTokens, CoinGeckoToken };
+export { TokenBalance, EthereumTokensPortfolio, EthereumAddressBalances, FungibleTokens };

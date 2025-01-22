@@ -18,6 +18,11 @@ function getContractAddress(tokenSymbol: string): string {
     return fungibleTokens[tokenSymbol].contract_address;
 }
 
+function getCoinIdFromSymbol(symbol: string): string {
+    const fungibleTokens = ETHEREUM.fungible_tokens as FungibleTokens;
+    return fungibleTokens[symbol].coin_gecko_id;
+}
+
 async function getEthBalance(walletAddress: string): Promise<string> {
     const balance = await publicClient.getBalance({ address: getAddress(walletAddress) });
     return formatUnits(balance, ETHEREUM.native_currency.decimals);
@@ -46,4 +51,4 @@ async function getTokenDecimals(contractAddress: string): Promise<number> {
     }) as number;
 }
 
-export { getEthBalance, getTokenBalance, getTokenDecimals, isAddress, getContractAddress };
+export { getEthBalance, getTokenBalance, getTokenDecimals, isAddress, getContractAddress, getCoinIdFromSymbol };
