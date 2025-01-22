@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { isAddress } from './shared/drivers/ethereum';
 import { getAddressBalances } from './core/use-cases/list-balances';
 import { getQuote } from './core/use-cases/get-quote';
+import { getPortfolio } from './core/use-cases/get-portfolio';
 
 
 const app = express();
@@ -54,22 +55,7 @@ app.get('/portfolio/:address', async (req: Request, res: Response) => {
 
     try {
         const tokenList = process.env.TOKENS_OF_INTEREST!.split(",");
-        const addressBalances = await getAddressBalances(walletAddress, tokenList);
-        const ethBalanceValue = Number(addressBalances.ethBalance) * (await getQuote('eth', 'usd')).price!;
-
-        const tokenBalanceValues = await Promise.all(addressBalances.tokenBalances.map(async (tokenBalance) => {
-            const quote = await getQuote(tokenBalance.symbol, 'usd');
-            return {
-                ...tokenBalance,
-                value: quote.price! * parseFloat(tokenBalance.balance),
-            };
-        }));
-        const portfolio = {
-            address: walletAddress,
-            ethBalance: addressBalances.ethBalance,
-            ethBalanceValue,
-            tokenBalanceValues
-        };
+        const portfolio = await getPortfolio(walletAddress, tokenList);
         res.json(portfolio);
 
     } catch (error: any) {
