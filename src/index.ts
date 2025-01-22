@@ -4,7 +4,7 @@ import { getAddressBalances } from './core/use-cases/list-balances';
 
 
 const app = express();
-const port = 3000;
+const port = process.env.EXPRESS_PORT || 3000;
   
 app.get('/balances/:address', async (req: Request, res: Response) => {
     const walletAddress = req.params.address;
@@ -28,3 +28,5 @@ app.get('/balances/:address', async (req: Request, res: Response) => {
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
+
+export default app;
