@@ -1,0 +1,27 @@
+{
+  "name": "personal_crypto_portfolio_tracker",
+  "version": "1.0.0",
+  "description": "Build an application (web or mobile) that allows users to track their crypto holdings across multiple exchanges and wallets. Include features like portfolio value calculation, profit/loss tracking, transaction history, and price alerts.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node -r dotenv/config dist/index.js",
+    "dev": "nodemon -r dotenv/config --exec ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Henrique Teixeira de Godoi",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.7",
+    "@types/node-fetch": "^2.6.12",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "viem": "^2.22.11"
+  }
+}
