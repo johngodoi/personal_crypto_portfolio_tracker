@@ -1,5 +1,5 @@
 import { getEthBalance, getTokenBalance, getTokenDecimals } from "../../shared/drivers/ethereum";
-import { TokenBalance } from "../entities/token";
+import { EthereumAddressBalances, EthereumTokensPortfolio, TokenBalance } from "../entities/token";
 
 async function getTokenBalances(walletAddress: string, contractAddresses: string[]): Promise<TokenBalance[] | null> {
     try {
@@ -21,14 +21,14 @@ async function getTokenBalances(walletAddress: string, contractAddresses: string
     }
 };
 
-async function getAddressBalances(walletAddress: string, tokenList: string[]): Promise<{ ethBalance: string, tokenBalances: { [key: string]: TokenBalance } }> {
-    const balances: { [key: string]: TokenBalance } = {};
+async function getAddressBalances(walletAddress: string, tokenList: string[]): Promise< EthereumAddressBalances> {
+    const tokensPortfolio: EthereumTokensPortfolio = {};
     const ethBalance = await getEthBalance(walletAddress);
     const tokenBalances = await getTokenBalances(walletAddress, tokenList);
     for(const token of tokenBalances!){
-        balances[token.contractAddress] = token;
+        tokensPortfolio[token.contractAddress] = token;
     }
-    return { ethBalance, tokenBalances: balances };
+    return { ethBalance, tokenBalances: tokensPortfolio } as EthereumAddressBalances;
 }
 
 export { getAddressBalances };
