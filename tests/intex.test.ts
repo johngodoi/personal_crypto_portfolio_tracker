@@ -31,6 +31,8 @@ describe('GET /balances', () => {
             expect(res.body.tokenBalances[token].decimals).to.be.a("number")
             expect(res.body.tokenBalances[token]).to.have.property('contractAddress');
             expect(res.body.tokenBalances[token].contractAddress).to.be.a("string")
+            expect(res.body.tokenBalances[token]).to.have.property('symbol');
+            expect(res.body.tokenBalances[token].symbol).to.be.a("string")
         }
     });
 });

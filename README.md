@@ -6,6 +6,8 @@ Build an application (web or mobile) that allows users to track their crypto hol
   - [ ] crypto.com
 - [ ] Connect to wallets
   - [ ] metamask
+- [ ] Initial setup
+  - [ ] load blockchain information
 - [ ] User configuration
   - [ ] define addresses for a specific blockchain
     - [ ] define tokens of interest for that address

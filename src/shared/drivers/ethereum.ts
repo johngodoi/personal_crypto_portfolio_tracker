@@ -2,8 +2,8 @@
 import { createPublicClient, http, getAddress, isAddress, formatUnits } from 'viem';
 import { mainnet } from 'viem/chains';
 import { abi } from "../../../abis/ERC20.json";
-
-const ETHER_DECIMALS = 18;
+import { ETHEREUM } from "../../../config/blockchains.json";
+import { FungibleTokens } from '../../core/entities/token';
 
 const alchemyApiKey = process.env.ALCHEMY_API_KEY;
 const alchemyRpcUrl = `${process.env.ALCHEMY_BASE_URL}/${alchemyApiKey}`;
@@ -13,10 +13,14 @@ const publicClient = createPublicClient({
     transport: http(alchemyRpcUrl),
 });
 
+function getContractAddress(tokenSymbol: string): string {
+    const fungibleTokens = ETHEREUM.fungible_tokens as FungibleTokens;
+    return fungibleTokens[tokenSymbol].contract_address;
+}
 
 async function getEthBalance(walletAddress: string): Promise<string> {
     const balance = await publicClient.getBalance({ address: getAddress(walletAddress) });
-    return formatUnits(balance, ETHER_DECIMALS);
+    return formatUnits(balance, ETHEREUM.native_currency.decimals);
 }
 
 async function getTokenBalance(walletAddress: string, contractAddress: string): Promise<string> {
@@ -42,4 +46,4 @@ async function getTokenDecimals(contractAddress: string): Promise<number> {
     }) as number;
 }
 
-export { getEthBalance, getTokenBalance, getTokenDecimals, isAddress };
+export { getEthBalance, getTokenBalance, getTokenDecimals, isAddress, getContractAddress };
