@@ -1,11 +1,7 @@
-import { getCoinIdFromSymbol } from "../drivers/ethereum";
-
 const COINGECKO_BASE_URL = process.env.COINGECKO_BASE_URL;
 
-async function getPrice(symbol: string, currency: string = 'usd'): Promise<number | null> {
+async function getPrice(tokenId: string, currency: string = 'usd'): Promise<number | null> {
     try {
-        const tokenId = getCoinIdFromSymbol(symbol);
-
         const url = `${COINGECKO_BASE_URL}/simple/price?ids=${tokenId}&vs_currencies=${currency}`
         const priceResponse = await fetch(url);
         const priceData = await priceResponse.json();

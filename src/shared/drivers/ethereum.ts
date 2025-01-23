@@ -1,5 +1,6 @@
 
 import { createPublicClient, http, getAddress, isAddress, formatUnits } from 'viem';
+import { mnemonicToAccount } from 'viem/accounts'
 import { mainnet } from 'viem/chains';
 import { abi } from "../../../abis/ERC20.json";
 import { ETHEREUM } from "../../../config/blockchains.json";
@@ -12,6 +13,10 @@ const publicClient = createPublicClient({
     chain: mainnet,
     transport: http(alchemyRpcUrl),
 });
+
+function generateEthereumAddress(mnemonic: string): string {
+    return mnemonicToAccount(mnemonic).address;
+}
 
 function isNative(tokenSymbol: string): boolean {
     return tokenSymbol.toLowerCase() === ETHEREUM.native_currency.symbol.toLowerCase();
@@ -59,4 +64,4 @@ async function getTokenDecimals(contractAddress: string): Promise<number> {
     }) as number;
 }
 
-export { getEthBalance, getTokenBalance, getTokenDecimals, isAddress, getContractAddress, getCoinIdFromSymbol, isNative };
+export { getEthBalance, getTokenBalance, getTokenDecimals, isAddress, getContractAddress, getCoinIdFromSymbol, isNative, generateEthereumAddress };

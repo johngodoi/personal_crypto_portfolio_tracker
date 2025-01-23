@@ -20,5 +20,23 @@
                 "coin_gecko_id": "chainlink"
             }
         }
+    },
+    "SOLANA": {
+        "native_currency": {
+            "name": "Solana",
+            "symbol": "SOL",
+            "decimals": 9,
+            "coin_gecko_id": "solana"
+        },
+        "fungible_tokens": {
+            "USDC": {
+                "contract_address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                "coin_gecko_id": "usd-coin"
+            },
+            "USDT": {
+                "contract_address": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+                "coin_gecko_id": "tether"
+            }
+        }
     }
 }
