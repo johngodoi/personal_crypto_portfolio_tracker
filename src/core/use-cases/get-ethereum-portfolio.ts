@@ -2,7 +2,7 @@ import { Portfolio } from "../entities/portfolio";
 import { getQuote } from "./get-quote";
 import { getAddressBalances } from "./list-ethereum-balances";
 
-async function getPortfolio(walletAddress: string, tokenList: string[]): Promise<Portfolio> {
+async function getEthereumPortfolio(walletAddress: string, tokenList: string[]): Promise<Portfolio> {
     const addressBalances = await getAddressBalances(walletAddress, tokenList);
     const ethBalanceValue = Number(addressBalances.ethBalance) * (await getQuote("ethereum", 'eth', 'usd')).price!;
 
@@ -21,4 +21,4 @@ async function getPortfolio(walletAddress: string, tokenList: string[]): Promise
     };
 }
 
-export { getPortfolio };
+export { getEthereumPortfolio };
