@@ -173,6 +173,5 @@ MIT License
 --- | ---
 name | John Henrique Teixeira de Godoi
 linkedin | https://www.linkedin.com/in/johngodoi
-github | https://github.com/johngodoi
 twitter | @john_godoi
 ens | johngodoi.eth
