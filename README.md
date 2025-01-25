@@ -23,6 +23,7 @@ This project leverages a modern technology stack to ensure robust performance, s
 
 <details>
   <summary>Click to expand!</summary>
+
 ### Node.js
 Node.js is the runtime environment for executing JavaScript code server-side. It provides an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for building scalable network applications.
 
@@ -49,6 +50,7 @@ Mocha is a feature-rich JavaScript test framework running on Node.js, making asy
 The project is organized into the following directories:
 <details>
   <summary>Click to expand!</summary>
+  
 ### `/src`
 Contains the main source code for the Crypto Portfolio Tracker, including modules for exchange and wallet integrations, blockchain support, and portfolio calculations. The source code is using a simple form of clean architecture for its organization with:
 
