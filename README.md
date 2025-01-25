@@ -172,9 +172,7 @@ MIT License
 | | | 
 --- | ---
 name | John Henrique Teixeira de Godoi
-e-mail | john.godoi@gmail.com
 linkedin | https://www.linkedin.com/in/johngodoi
 github | https://github.com/johngodoi
 twitter | @john_godoi
-mobile | +55 12 98212-8724
 ens | johngodoi.eth
