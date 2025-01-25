@@ -11,6 +11,7 @@ Stay on top of your crypto investments with the Crypto Portfolio Tracker, your a
 <img src="assets/logos/SOL.svg" width="75" height="75" alt="Solana"> 
 <!--<img src="assets/logos/XRP.svg" width="75" height="75" alt="Ripple">
 <img src="assets/logos/TRX.svg" width="75" height="75" alt="Tron"> -->
+<img src="assets/logos/LINK.svg" width="75" height="75" alt="LINK"> 
 <img src="assets/logos/USDC.svg" width="75" height="75" alt="USDC"> 
 <img src="assets/logos/USDT.svg" width="75" height="75" alt="USDT"> 
 </p>
