@@ -4,6 +4,17 @@
 The Crypto Portfolio Tracker is a powerful tool designed to help you manage and track your cryptocurrency investments across multiple blockchains and exchanges. With support for Ethereum and Solana, this tracker evaluates current prices using Coingecko, providing you with up-to-date portfolio values.
 Stay on top of your crypto investments with the Crypto Portfolio Tracker, your all-in-one solution for managing and visualizing your digital assets.
 
+## Blockchains and Tokens Supported
+<p float="left">
+<img src="assets/logos/ETH.svg" width="75" height="75" alt="Ethereum"> 
+<img src="assets/logos/SOL.svg" width="75" height="75" alt="Solana"> 
+<!--<img src="assets/logos/XRP.svg" width="75" height="75" alt="Ripple">
+<img src="assets/logos/TRX.svg" width="75" height="75" alt="Tron"> -->
+<img src="assets/logos/USDC.svg" width="75" height="75" alt="USDC"> 
+<img src="assets/logos/USDT.svg" width="75" height="75" alt="USDT"> 
+</p>
+
+
 ## Technology Stack
 
 This project leverages a modern technology stack to ensure robust performance, scalability, and maintainability. Below is an overview of the key technologies used:
@@ -54,6 +65,12 @@ Includes documentation files, such as user guides, API references, and developer
 
 ### `/abis`
 This directory contains the Application Binary Interface (ABI) files for the smart contracts used in the project. ABIs are essential for interacting with the smart contracts from the TypeScript code, as they define the methods and events available in the contracts. Each ABI file is typically generated when the smart contract is compiled and is used by `viem.js` to facilitate communication with the blockchain.
+
+### `/assets`
+This directory contains various assets used in the project, such as images, logos, and other media files.
+
+#### `/assets/logos`
+This folder includes logos for the blockchains and stablecoins supported by the project. The logos are in SVG format to ensure high quality and scalability.
 
 ## Getting Started
 
