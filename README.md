@@ -134,6 +134,8 @@ This will launch the server using the compiled JavaScript code from the `/dist` 
 ### Blockchain Support
 - [X] Ethereum
 - [X] Solana
+- [ ] Ripple
+- [ ] Tron
 
 ### Initial Setup
 - [X] Load blockchain information
