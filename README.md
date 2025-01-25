@@ -21,6 +21,8 @@ Stay on top of your crypto investments with the Crypto Portfolio Tracker, your a
 
 This project leverages a modern technology stack to ensure robust performance, scalability, and maintainability. Below is an overview of the key technologies used:
 
+<details>
+  <summary>Click to expand!</summary>
 ### Node.js
 Node.js is the runtime environment for executing JavaScript code server-side. It provides an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for building scalable network applications.
 
@@ -39,10 +41,14 @@ Solana Web3.js is a JavaScript library for interacting with the Solana blockchai
 ### Mocha
 Mocha is a feature-rich JavaScript test framework running on Node.js, making asynchronous testing simple and fun. Mocha tests run serially, allowing for flexible and accurate reporting, while mapping uncaught exceptions to the correct test cases. It is used in this project to write and execute unit and integration tests, ensuring the reliability of the codebase.
 
+</details>
+
+
 ## Project Structure
 
 The project is organized into the following directories:
-
+<details>
+  <summary>Click to expand!</summary>
 ### `/src`
 Contains the main source code for the Crypto Portfolio Tracker, including modules for exchange and wallet integrations, blockchain support, and portfolio calculations. The source code is using a simple form of clean architecture for its organization with:
 
@@ -73,6 +79,7 @@ This directory contains various assets used in the project, such as images, logo
 
 #### `/assets/logos`
 This folder includes logos for the blockchains and stablecoins supported by the project. The logos are in SVG format to ensure high quality and scalability.
+</details>
 
 ## Getting Started
 
@@ -124,6 +131,11 @@ npm run start
 This will launch the server using the compiled JavaScript code from the `/dist` directory, allowing you to run the project in a production environment.
 
 ## Features
+
+
+<details>
+  <summary>Click to expand!</summary>
+
 ### Exchange Integration
 - [ ] Connect to crypto exchanges
   - [ ] crypto.com
@@ -162,6 +174,8 @@ This will launch the server using the compiled JavaScript code from the `/dist` 
 
 ### Watchlist
 - [ ] Create and manage a watchlist of tokens
+
+</details>
 
 ## Contributing
 
