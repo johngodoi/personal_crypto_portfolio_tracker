@@ -1,18 +1,26 @@
 import { Request, Response } from 'express';
-import { isAddress } from '../../shared/drivers/ethereum';
+import { isEthAddress } from '../../shared/drivers/ethereum';
 import { isSolanaAddress } from '../../shared/drivers/solana';
 import { getAddressBalances } from '../../core/use-cases/list-ethereum-balances';
 import { getSolanaAddressBalances } from '../../core/use-cases/list-solana-balances';
+import { getRippleAddressBalances } from '../../core/use-cases/list-ripple-balances';
+import { isXRPAddress } from '../../shared/drivers/ripple';
 
 
 async function getBalances(req: Request, res: Response) {
     const blockchain = req.params.blockchain;
-    if (!['ethereum', 'solana'].includes(blockchain)) {
+    if (!['ethereum', 'solana', 'ripple'].includes(blockchain)) {
         res.status(400).json({ error: `Invalid blockchain ${blockchain}` });
         return;
     }
     const walletAddress = req.params.address;
-    const isValidAddress = blockchain === 'ethereum' ? isAddress(walletAddress) : isSolanaAddress(walletAddress);
+    const blockchainAddressCheckers:{[name:string]: (address:string) => boolean } = {
+        "ethereum": isEthAddress,
+        "solana": isSolanaAddress,
+        "ripple": isXRPAddress
+    }
+    const isValidAddress = blockchainAddressCheckers[blockchain](walletAddress as string);
+    
     if (!walletAddress || !isValidAddress) {
         res.status(400).json({ error: 'Invalid wallet address' });
         return;
@@ -22,9 +30,11 @@ async function getBalances(req: Request, res: Response) {
             const tokenList = (process.env.TOKENS_OF_INTEREST || "").split(",");
             const addressBalances = await getAddressBalances(walletAddress, tokenList);
             res.json(addressBalances);
-        }
-        else {
+        } else if(blockchain === 'solana') {
             const addressBalances = await getSolanaAddressBalances(walletAddress);
+            res.json(addressBalances);
+        } else if(blockchain === 'ripple') {
+            const addressBalances = await getRippleAddressBalances(walletAddress);
             res.json(addressBalances);
         }
     }

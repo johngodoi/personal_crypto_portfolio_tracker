@@ -38,5 +38,19 @@
                 "coin_gecko_id": "tether"
             }
         }
+    },
+    "RIPPLE": {
+        "native_currency": {
+            "name": "XRP",
+            "symbol": "XRP",
+            "decimals": 6,
+            "coin_gecko_id": "ripple"
+        },
+        "fungible_tokens":{
+            "RLUSD": {
+                "contract_address": "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De",
+                "coin_gecko_id": "ripple-usd"
+            }
+        }
     }
 }

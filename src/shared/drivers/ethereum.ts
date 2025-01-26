@@ -64,4 +64,8 @@ async function getTokenDecimals(contractAddress: string): Promise<number> {
     }) as number;
 }
 
-export { getEthBalance, getTokenBalance, getTokenDecimals, isAddress, getContractAddress, getCoinIdFromSymbol, isNative, generateEthereumAddress };
+function isEthAddress(address: string): boolean {
+    return isAddress(address);
+}
+
+export { getEthBalance, getTokenBalance, getTokenDecimals, isEthAddress, getContractAddress, getCoinIdFromSymbol, isNative, generateEthereumAddress };

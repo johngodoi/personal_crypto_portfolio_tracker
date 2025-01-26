@@ -1,18 +1,25 @@
 import { Request, Response } from 'express';
-import { isAddress } from '../../shared/drivers/ethereum';
+import { isEthAddress } from '../../shared/drivers/ethereum';
 import { isSolanaAddress } from '../../shared/drivers/solana';
 import { getEthereumPortfolio } from '../../core/use-cases/get-ethereum-portfolio';
 import { getSolanaPortfolio } from '../../core/use-cases/get-solana-portfolio';
+import { isXRPAddress } from '../../shared/drivers/ripple';
+import { getRipplePortfolio } from '../../core/use-cases/get-ripple-portfolio';
 
 
 async function getPortfolio(req: Request, res: Response) {
     const blockchain = req.params.blockchain;
-    if (!['ethereum', 'solana'].includes(blockchain)) {
+    if (!['ethereum', 'solana', 'ripple'].includes(blockchain)) {
         res.status(400).json({ error: `Invalid blockchain ${blockchain}` });
         return;
     }
     const walletAddress = req.params.address;
-    const isValidAddress = blockchain === 'ethereum' ? isAddress(walletAddress) : isSolanaAddress(walletAddress);
+    const blockchainAddressCheckers:{[name:string]: (address:string) => boolean } = {
+        "ethereum": isEthAddress,
+        "solana": isSolanaAddress,
+        "ripple": isXRPAddress
+    }
+    const isValidAddress = blockchainAddressCheckers[blockchain](walletAddress as string);
     if (!walletAddress || !isValidAddress) {
         res.status(400).json({ error: 'Invalid wallet address' });
         return;
@@ -23,8 +30,12 @@ async function getPortfolio(req: Request, res: Response) {
             const portfolio = await getEthereumPortfolio(walletAddress, tokenList);
             res.json(portfolio);
         }
-        else {
+        else if (blockchain === 'solana') {
             const portfolio = await getSolanaPortfolio(walletAddress);
+            res.json(portfolio);
+        }
+        else if (blockchain === 'ripple') {
+            const portfolio = await getRipplePortfolio(walletAddress);
             res.json(portfolio);
         }
     }

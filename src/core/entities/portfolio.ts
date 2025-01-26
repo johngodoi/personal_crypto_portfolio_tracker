@@ -6,8 +6,8 @@ interface TokenBalanceValue extends TokenBalance {
 
 interface Portfolio {
     address: string;
-    ethBalance: string;
-    ethBalanceValue: number;
+    nativeBalance: string;
+    nativeBalanceValue: number;
     tokenBalanceValues: TokenBalanceValue[];
 }
 
