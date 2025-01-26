@@ -38,27 +38,21 @@ async function getRippleTokenBalances(walletAddress: string): Promise<TokenBalan
             }
             });
 
-            if (Object.keys(tokenBalances).length === 0) {
-            console.log(`No token balances found for ${walletAddress}`);
-            } else {
-            console.log(`Token balances for ${walletAddress}:`);
-            for (const currency in tokenBalances) {
-                console.log(`- ${currency}:`);
-                tokenBalances[currency].forEach(balance => {
-                    balances.push({
-                        balance: balance.value,
-                        symbol: decodeHexString(currency),
-                        contractAddress: balance.issuer,
-                        decimals: 0,
-                    })
-                    console.log(`    - Issuer: ${balance.issuer}, Value: ${balance.value}`);
-                });
-            }
+            if (Object.keys(tokenBalances).length > 0) {
+              for (const currency in tokenBalances) {
+                  tokenBalances[currency].forEach(balance => {
+                      balances.push({
+                          balance: balance.value,
+                          symbol: decodeHexString(currency),
+                          contractAddress: balance.issuer,
+                          decimals: 0,
+                      })
+                  });
+              }
             }
             return balances;
 
         } else {
-            console.log(`No trustlines found for address: ${walletAddress}`);
             return [];
         }
     } catch (error) {
@@ -75,9 +69,7 @@ async function getXRPBalance(address:string){
     const client = new Client('wss://s1.ripple.com'); // Replace with your preferred server
     
     try {
-        console.log('Connecting to XRPL...');
         await client.connect();
-        console.log('Connected to XRPL');
         const request: AccountInfoRequest = {
           command: 'account_info',
           account: address,
@@ -87,10 +79,8 @@ async function getXRPBalance(address:string){
     
         if (response.result.account_data) {
           const xrpBalance = Number(response.result.account_data.Balance).valueOf();
-          console.log(`XRP Balance for ${address}: ${xrpBalance}`);
           return xrpBalance / Math.pow(10, 6); // Convert from drops to XRP
         } else {
-          console.log(`No account found for address: ${address}`);
           return 0;
         }
       } catch (error) {

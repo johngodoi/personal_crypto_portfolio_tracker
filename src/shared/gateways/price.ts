@@ -9,7 +9,7 @@ async function getPrice(tokenId: string, currency: string = 'usd'): Promise<numb
         if (priceData && priceData[tokenId] && priceData[tokenId][currency]) {
             return priceData[tokenId][currency];
         } else {
-            console.log(`Could not retrieve price for ${tokenId} in ${currency}.`);
+            console.error(`Could not retrieve price for ${tokenId} in ${currency}.`);
             throw new Error(`Could not retrieve price for ${tokenId} in ${currency}.`);
         }
     } catch (error) {
