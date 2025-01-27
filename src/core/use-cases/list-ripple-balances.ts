@@ -1,6 +1,4 @@
-import { Client, AccountLinesRequest } from 'xrpl';
 import { getRippleTokenBalances, getXRPBalance } from '../../shared/drivers/ripple';
-
 
 
 async function getRippleAddressBalances(walletAddress: string){
