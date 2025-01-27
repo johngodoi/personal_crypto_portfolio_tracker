@@ -5,11 +5,13 @@ import { getAddressBalances } from '../../core/use-cases/list-ethereum-balances'
 import { getSolanaAddressBalances } from '../../core/use-cases/list-solana-balances';
 import { getRippleAddressBalances } from '../../core/use-cases/list-ripple-balances';
 import { isXRPAddress } from '../../shared/drivers/ripple';
+import { isTronAddress } from '../../shared/drivers/tron';
+import { getTronAddressBalances } from '../../core/use-cases/list-tron-balances';
 
 
 async function getBalances(req: Request, res: Response) {
     const blockchain = req.params.blockchain;
-    if (!['ethereum', 'solana', 'ripple'].includes(blockchain)) {
+    if (!['ethereum', 'solana', 'ripple', 'tron'].includes(blockchain)) {
         res.status(400).json({ error: `Invalid blockchain ${blockchain}` });
         return;
     }
@@ -17,7 +19,8 @@ async function getBalances(req: Request, res: Response) {
     const blockchainAddressCheckers:{[name:string]: (address:string) => boolean } = {
         "ethereum": isEthAddress,
         "solana": isSolanaAddress,
-        "ripple": isXRPAddress
+        "ripple": isXRPAddress,
+        "tron": isTronAddress
     }
     const isValidAddress = blockchainAddressCheckers[blockchain](walletAddress as string);
     
@@ -26,8 +29,8 @@ async function getBalances(req: Request, res: Response) {
         return;
     }
     try {
+        const tokenList = (process.env.TOKENS_OF_INTEREST || "").split(",");
         if (blockchain === 'ethereum') {
-            const tokenList = (process.env.TOKENS_OF_INTEREST || "").split(",");
             const addressBalances = await getAddressBalances(walletAddress, tokenList);
             res.json(addressBalances);
         } else if(blockchain === 'solana') {
@@ -35,6 +38,9 @@ async function getBalances(req: Request, res: Response) {
             res.json(addressBalances);
         } else if(blockchain === 'ripple') {
             const addressBalances = await getRippleAddressBalances(walletAddress);
+            res.json(addressBalances);
+        } else if (blockchain === 'tron') {
+            const addressBalances = await getTronAddressBalances(walletAddress, tokenList);
             res.json(addressBalances);
         }
     }

@@ -5,11 +5,13 @@ import { getEthereumPortfolio } from '../../core/use-cases/get-ethereum-portfoli
 import { getSolanaPortfolio } from '../../core/use-cases/get-solana-portfolio';
 import { isXRPAddress } from '../../shared/drivers/ripple';
 import { getRipplePortfolio } from '../../core/use-cases/get-ripple-portfolio';
+import { isTronAddress } from '../../shared/drivers/tron';
+import { getTronPortfolio } from '../../core/use-cases/get-tron-portfolio';
 
 
 async function getPortfolio(req: Request, res: Response) {
     const blockchain = req.params.blockchain;
-    if (!['ethereum', 'solana', 'ripple'].includes(blockchain)) {
+    if (!['ethereum', 'solana', 'ripple', 'tron'].includes(blockchain)) {
         res.status(400).json({ error: `Invalid blockchain ${blockchain}` });
         return;
     }
@@ -17,7 +19,8 @@ async function getPortfolio(req: Request, res: Response) {
     const blockchainAddressCheckers:{[name:string]: (address:string) => boolean } = {
         "ethereum": isEthAddress,
         "solana": isSolanaAddress,
-        "ripple": isXRPAddress
+        "ripple": isXRPAddress,
+        "tron": isTronAddress
     }
     const isValidAddress = blockchainAddressCheckers[blockchain](walletAddress as string);
     if (!walletAddress || !isValidAddress) {
@@ -25,8 +28,8 @@ async function getPortfolio(req: Request, res: Response) {
         return;
     }
     try {
+        const tokenList = (process.env.TOKENS_OF_INTEREST || "").split(",");
         if (blockchain === 'ethereum') {
-            const tokenList = (process.env.TOKENS_OF_INTEREST || "").split(",");
             const portfolio = await getEthereumPortfolio(walletAddress, tokenList);
             res.json(portfolio);
         }
@@ -36,6 +39,9 @@ async function getPortfolio(req: Request, res: Response) {
         }
         else if (blockchain === 'ripple') {
             const portfolio = await getRipplePortfolio(walletAddress);
+            res.json(portfolio);
+        } else if (blockchain === 'tron') {
+            const portfolio = await getTronPortfolio(walletAddress, tokenList);
             res.json(portfolio);
         }
     }

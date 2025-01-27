@@ -52,5 +52,19 @@
                 "coin_gecko_id": "ripple-usd"
             }
         }
+    },
+    "TRON": {
+        "native_currency": {
+            "name": "TRX",
+            "symbol": "TRX",
+            "decimals": 6,
+            "coin_gecko_id": "tron"
+        },
+        "fungible_tokens": {
+            "USDT": {
+                "contract_address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+                "coin_gecko_id": "tether"
+            }
+        }
     }
 }
