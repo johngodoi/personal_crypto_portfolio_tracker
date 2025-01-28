@@ -1,7 +1,7 @@
 import { getSolBalance, getSymbolFromSolanaAddress, listTokensOwnedByAddress } from "../../shared/drivers/solana";
-import { TokenBalance } from "../entities/token";
+import { AddressBalances, TokenBalance } from "../entities/token";
 
-async function getSolanaTokenBalances(walletAddress: string): Promise<TokenBalance[] | null> {
+async function getSolanaTokenBalances(walletAddress: string): Promise<TokenBalance[]> {
     try {
 
         const solTokens = await listTokensOwnedByAddress(walletAddress);
@@ -19,14 +19,14 @@ async function getSolanaTokenBalances(walletAddress: string): Promise<TokenBalan
         return balances;
     } catch (error) {
         console.error("Error getting token balance:", error);
-        return null;
+        return [];
     }
 };
 
-async function getSolanaAddressBalances(walletAddress: string){
-    const solBalance = (await getSolBalance(walletAddress)).toString();
+async function getSolanaAddressBalances(walletAddress: string): Promise<AddressBalances> {
+    const nativeBalance = (await getSolBalance(walletAddress)).toString();
     const tokenBalances = await getSolanaTokenBalances(walletAddress);
-    return { solBalance, tokenBalances};
+    return { blockchain: "solana", nativeBalance, tokenBalances};
 }
 
 export { getSolanaAddressBalances };

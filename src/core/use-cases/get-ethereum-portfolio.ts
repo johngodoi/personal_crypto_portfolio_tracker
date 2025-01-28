@@ -4,7 +4,7 @@ import { getAddressBalances } from "./list-ethereum-balances";
 
 async function getEthereumPortfolio(walletAddress: string, tokenList: string[]): Promise<Portfolio> {
     const addressBalances = await getAddressBalances(walletAddress, tokenList);
-    const nativeBalanceValue = Number(addressBalances.ethBalance) * (await getQuote("ethereum", 'eth', 'usd')).price!;
+    const nativeBalanceValue = Number(addressBalances.nativeBalance) * (await getQuote("ethereum", 'eth', 'usd')).price!;
 
     const tokenBalanceValues = await Promise.all(addressBalances.tokenBalances.map(async (tokenBalance) => {
         const quote = await getQuote("ethereum", tokenBalance.symbol, 'usd');
@@ -15,7 +15,7 @@ async function getEthereumPortfolio(walletAddress: string, tokenList: string[]):
     }));
     return {
         address: walletAddress,
-        nativeBalance: addressBalances.ethBalance,
+        nativeBalance: addressBalances.nativeBalance,
         nativeBalanceValue,
         tokenBalanceValues
     };

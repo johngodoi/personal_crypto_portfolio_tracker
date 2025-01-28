@@ -4,7 +4,7 @@ import { getTronAddressBalances } from "./list-tron-balances";
 
 async function getTronPortfolio(walletAddress: string, tokenList: string[]): Promise<Portfolio> {
     const addressBalances = await getTronAddressBalances(walletAddress, tokenList);
-    const nativeBalanceValue = Number(addressBalances.trxBalance) * (await getQuote("tron", 'trx', 'usd')).price!;
+    const nativeBalanceValue = Number(addressBalances.nativeBalance) * (await getQuote("tron", 'trx', 'usd')).price!;
 
     const tokenBalanceValues = await Promise.all(addressBalances.tokenBalances.map(async (tokenBalance) => {
         const quote = await getQuote("tron", tokenBalance.symbol, 'usd');
@@ -15,7 +15,7 @@ async function getTronPortfolio(walletAddress: string, tokenList: string[]): Pro
     }));
     return {
         address: walletAddress,
-        nativeBalance: addressBalances.trxBalance,
+        nativeBalance: addressBalances.nativeBalance,
         nativeBalanceValue,
         tokenBalanceValues
     };

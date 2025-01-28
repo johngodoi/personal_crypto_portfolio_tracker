@@ -37,6 +37,7 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "tronweb": "^6.0.1",
+    "typescript-json-schema": "^0.65.1",
     "viem": "^2.22.11",
     "xrpl": "^4.1.0"
   }

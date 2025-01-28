@@ -4,7 +4,7 @@ import { getRippleAddressBalances } from "./list-ripple-balances";
 
 async function getRipplePortfolio(walletAddress: string): Promise<Portfolio> {
     const addressBalances = await getRippleAddressBalances(walletAddress);
-    const nativeBalanceValue = Number(addressBalances.xrpBalance) * (await getQuote("ripple", 'xrp', 'usd')).price!;
+    const nativeBalanceValue = Number(addressBalances.nativeBalance) * (await getQuote("ripple", 'xrp', 'usd')).price!;
 
     const tokenBalanceValues = await Promise.all(addressBalances.tokenBalances!.map(async (tokenBalance) => {
         const quote = await getQuote("ripple", tokenBalance.symbol, 'usd');
@@ -15,7 +15,7 @@ async function getRipplePortfolio(walletAddress: string): Promise<Portfolio> {
     }));
     return {
         address: walletAddress,
-        nativeBalance: addressBalances.xrpBalance,
+        nativeBalance: addressBalances.nativeBalance,
         nativeBalanceValue,
         tokenBalanceValues
     };

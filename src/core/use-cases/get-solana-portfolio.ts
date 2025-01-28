@@ -4,7 +4,7 @@ import { getSolanaAddressBalances } from "./list-solana-balances";
 
 async function getSolanaPortfolio(walletAddress: string): Promise<Portfolio> {
     const addressBalances = await getSolanaAddressBalances(walletAddress);
-    const nativeBalanceValue = Number(addressBalances.solBalance) * (await getQuote("solana", 'sol', 'usd')).price!;
+    const nativeBalanceValue = Number(addressBalances.nativeBalance) * (await getQuote("solana", 'sol', 'usd')).price!;
 
     const tokenBalanceValues = await Promise.all(addressBalances.tokenBalances!.map(async (tokenBalance) => {
         const quote = await getQuote("solana", tokenBalance.symbol, 'usd');
@@ -15,7 +15,7 @@ async function getSolanaPortfolio(walletAddress: string): Promise<Portfolio> {
     }));
     return {
         address: walletAddress,
-        nativeBalance: addressBalances.solBalance,
+        nativeBalance: addressBalances.nativeBalance,
         nativeBalanceValue,
         tokenBalanceValues
     };

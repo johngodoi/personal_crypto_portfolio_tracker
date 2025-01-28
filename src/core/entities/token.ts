@@ -12,6 +12,6 @@ type FungibleTokens = {
     };
 };
 
-interface EthereumAddressBalances { ethBalance: string, tokenBalances: TokenBalance[] };
+interface AddressBalances { blockchain: string, nativeBalance: string, tokenBalances: TokenBalance[] };
 
-export { TokenBalance, EthereumAddressBalances, FungibleTokens };
+export { TokenBalance, AddressBalances, FungibleTokens };

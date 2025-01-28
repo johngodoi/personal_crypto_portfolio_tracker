@@ -9,7 +9,7 @@ import { isTronAddress } from '../../shared/drivers/tron';
 import { getTronAddressBalances } from '../../core/use-cases/list-tron-balances';
 
 
-async function getBalances(req: Request, res: Response) {
+async function getBalances(req: Request, res: Response): Promise<void> {
     const blockchain = req.params.blockchain;
     if (!['ethereum', 'solana', 'ripple', 'tron'].includes(blockchain)) {
         res.status(400).json({ error: `Invalid blockchain ${blockchain}` });

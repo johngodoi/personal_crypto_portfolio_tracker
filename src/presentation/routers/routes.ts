@@ -1,42 +1,56 @@
 import { Request, Response, Router } from 'express';
-import { getBalances } from './controllers/get-balances';
-import { getPrices } from './controllers/get-prices';
-import { getPortfolio } from './controllers/get-portfolio';
-import { getAddresses } from './controllers/get-addresses';
+import { getBalances } from '../controllers/get-balances';
+import { getPrices } from '../controllers/get-prices';
+import { getPortfolio } from '../controllers/get-portfolio';
+import { getAddresses } from '../controllers/get-addresses';
   
 
 const router = Router();
+
 /**
  * @swagger
  * /blockchains/{blockchain}/balances/{address}:
  *   get:
+ *     tags:
+ *      - Balances
  *     description: Get the balances, of native currency and fungible tokens, of an address on a blockchain (e.g. Ethereum, Tron, etc.)
- *   parameters:
- *     - in: path
- *       name: blockchain
- *       required: true
- *       schema:
- *         type: string
- *       description: The name of the blockchain (e.g. Ethereum, Tron, etc.)
- *     - in: path
- *       name: address
- *       required: true
- *       schema:
- *         type: string
- *       description: The address on the blockchain
- *   responses:
- *     200:
- *       description: The balances of the address
- *       content:
- *         application/json:
- *       schema:
- *         type: object
- *         properties:
- *           native:
- *             type: object
- *             properties:
- *              balance:
- *               type: string
+ *     parameters:
+ *       - in: path
+ *         name: blockchain
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The name of the blockchain (e.g. Ethereum, Tron, etc.)
+ *       - in: path
+ *         name: address
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The address on the blockchain
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/AddressBalances'
+ *             example:
+ *               {
+ *                  "blockchain": "ethereum",
+ *                  "nativeBalance": "0.009009742147357707",
+ *                  "tokenBalances": [
+ *                      {
+ *                          "balance": "8.0614",
+ *                          "decimals": 6,
+ *                          "symbol": "USDT",
+ *                          "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7"
+ *                      }
+ *                  ]
+ *               }
+ *       404:
+ *         description: Balances not found
+ *       500:
+ *         description: Internal server error
  */
 router.get('/blockchains/:blockchain/balances/:address', async (req: Request, res: Response) => {
     return await getBalances(req, res);
@@ -46,6 +60,8 @@ router.get('/blockchains/:blockchain/balances/:address', async (req: Request, re
  * @swagger
  * /blockchains/{blockchain}/prices/{symbol}:
  *   get:
+ *     tags:
+ *      - Prices
  *     description: Get the price of a token on a blockchain (e.g. Ethereum, Tron, etc.)
  *     parameters:
  *       - in: path
@@ -76,6 +92,8 @@ router.get('/blockchains/:blockchain/prices/:symbol', async (req: Request, res: 
  * @swagger
  * /blockchains/{blockchain}/portfolio/{address}:
  *   get:
+ *     tags:
+ *      - Portfolio
  *     description: Get the portfolio of an address on a blockchain (e.g. Ethereum, Tron, etc.)
  *     parameters:
  *       - in: path
