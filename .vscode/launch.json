@@ -19,6 +19,20 @@
         "env": {
           "TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json"
         }
+      },
+      {
+        "type": "node",
+        "request": "attach",
+        "name": "Attach to Express",
+        "port": 9229,
+        "restart": true,
+        "protocol": "inspector",
+        "skipFiles": [
+          "<node_internals>/**"
+        ],
+        "env": {
+          "NODE_ENV": "development"
+        }
       }
     ]
 }

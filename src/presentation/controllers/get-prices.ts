@@ -1,22 +1,28 @@
 import e, { Request, Response } from 'express';
-import { getQuote } from '../../core/use-cases/get-quote';
+import { getPrice } from '../../shared/gateways/price';
+import { UseCase } from '../../core/use-cases/interface';
 
 
-async function getPrices(req: Request, res: Response) {
-    const symbol = req.params.symbol;
-    const blockchain = req.params.blockchain;
-    if (!symbol) {
-        res.status(400).json({ error: 'Invalid token symbol' });
-        return;
-    }
-    try {
-        const quote = await getQuote(blockchain, symbol);
-        res.json(quote);
-    }
-    catch (error: any) {
-        console.error("Error:", error);
-        res.status(500).json({ error: `An error occurred: ${error.message}` });
+export class PricesController{
+    constructor(private useCases: {[blockchain: string]: () => UseCase}) {}
+    
+    async getPrices(req: Request, res: Response) {
+        const symbol = req.params.symbol;
+        const blockchain = req.params.blockchain;
+        if (!symbol) {
+            res.status(400).json({ error: 'Invalid token symbol' });
+            return;
+        }
+        const useCase = this.useCases[blockchain]();
+
+        try {
+            const tokenId = await useCase.getCoinIdFromSymbol(symbol);
+            const price = (await getPrice(tokenId))!;
+            res.json({blockchain, symbol, price});
+        }
+        catch (error: any) {
+            console.error("Error:", error);
+            res.status(500).json({ error: `An error occurred: ${error.message}` });
+        }
     }
 }
-
-export { getPrices };

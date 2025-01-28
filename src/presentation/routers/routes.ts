@@ -1,11 +1,13 @@
 import { Request, Response, Router } from 'express';
-import { getBalances } from '../controllers/get-balances';
-import { getPrices } from '../controllers/get-prices';
-import { getPortfolio } from '../controllers/get-portfolio';
-import { getAddresses } from '../controllers/get-addresses';
+import { createUseCases } from '.';
+import { BalancesController } from '../controllers/get-balances';
+import { PricesController } from '../controllers/get-prices';
+import { PortfolioController } from '../controllers/get-portfolio';
+import { AddressesController } from '../controllers/get-addresses';
   
 
 const router = Router();
+const useCases = createUseCases();
 
 /**
  * @swagger
@@ -53,7 +55,8 @@ const router = Router();
  *         description: Internal server error
  */
 router.get('/blockchains/:blockchain/balances/:address', async (req: Request, res: Response) => {
-    return await getBalances(req, res);
+    const controller = new BalancesController(useCases)
+    return await controller.getBalances(req, res);
 });
 
 /**
@@ -85,7 +88,8 @@ router.get('/blockchains/:blockchain/balances/:address', async (req: Request, re
  *           type: object
  */
 router.get('/blockchains/:blockchain/prices/:symbol', async (req: Request, res: Response) => {
-    return await getPrices(req, res);
+    const controller = new PricesController(useCases);
+    return await controller.getPrices(req, res);
 });
 
 /**
@@ -117,7 +121,8 @@ router.get('/blockchains/:blockchain/prices/:symbol', async (req: Request, res: 
  *           type: object
  */
 router.get('/blockchains/:blockchain/portfolio/:address', async (req: Request, res: Response) => {
-    return await getPortfolio(req, res);
+    const controller = new PortfolioController(useCases);
+    return await controller.getPortfolio(req, res);
 });
 
 /**
@@ -134,7 +139,8 @@ router.get('/blockchains/:blockchain/portfolio/:address', async (req: Request, r
  *           type: object
  */
 router.get("/addresses", async (req: Request, res: Response) => {
-    return await getAddresses(req, res);
+    const controller = new AddressesController(useCases);
+    return await controller.getAddresses(req, res);
 });
 
 export default router;

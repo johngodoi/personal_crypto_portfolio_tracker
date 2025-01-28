@@ -1,71 +1,68 @@
 
-import { createPublicClient, http, getAddress, isAddress, formatUnits } from 'viem';
-import { mnemonicToAccount } from 'viem/accounts'
-import { mainnet } from 'viem/chains';
+import { getAddress, isAddress, formatUnits } from 'viem';
+import { mnemonicToAccount } from 'viem/accounts';
 import { abi } from "../../../abis/ERC20.json";
 import { ETHEREUM } from "../../../config/blockchains.json";
 import { FungibleTokens } from '../../core/entities/token';
 
-const alchemyApiKey = process.env.ALCHEMY_API_KEY;
-const alchemyRpcUrl = `${process.env.ALCHEMY_BASE_URL}/${alchemyApiKey}`;
 
-const publicClient = createPublicClient({
-    chain: mainnet,
-    transport: http(alchemyRpcUrl),
-});
-
-function generateEthereumAddress(mnemonic: string): string {
-    return mnemonicToAccount(mnemonic).address;
-}
-
-function isNative(tokenSymbol: string): boolean {
-    return tokenSymbol.toLowerCase() === ETHEREUM.native_currency.symbol.toLowerCase();
-}
-
-function getContractAddress(tokenSymbol: string): string {
-    const fungibleTokens = ETHEREUM.fungible_tokens as FungibleTokens;
-    return fungibleTokens[tokenSymbol].contract_address;
-}
-
-function getCoinIdFromSymbol(symbol: string): string {
-    const isNativeCurrency = isNative(symbol);
-    if (isNativeCurrency) {
-        return ETHEREUM.native_currency.coin_gecko_id;
+export class EthereumDriver {
+    public publicClient: any;
+    constructor(publicClient: any) {
+        this.publicClient = publicClient;
     }
-    const fungibleTokens = ETHEREUM.fungible_tokens as FungibleTokens;
-    return fungibleTokens[symbol.toUpperCase()].coin_gecko_id;
-}
 
-async function getEthBalance(walletAddress: string): Promise<string> {
-    const balance = await publicClient.getBalance({ address: getAddress(walletAddress) });
-    return formatUnits(balance, ETHEREUM.native_currency.decimals);
+    generateEthereumAddress(mnemonic: string): string {
+        return mnemonicToAccount(mnemonic).address;
+    }
+    
+    isNative(tokenSymbol: string): boolean {
+        return tokenSymbol.toLowerCase() === ETHEREUM.native_currency.symbol.toLowerCase();
+    }
+    
+    getContractAddress(tokenSymbol: string): string {
+        const fungibleTokens = ETHEREUM.fungible_tokens as FungibleTokens;
+        return fungibleTokens[tokenSymbol].contract_address;
+    }
+    
+    getCoinIdFromSymbol(symbol: string): string {
+        const isNativeCurrency = this.isNative(symbol);
+        if (isNativeCurrency) {
+            return ETHEREUM.native_currency.coin_gecko_id;
+        }
+        const fungibleTokens = ETHEREUM.fungible_tokens as FungibleTokens;
+        return fungibleTokens[symbol.toUpperCase()].coin_gecko_id;
+    }
+    
+    async getBalance(walletAddress: string): Promise<string> {
+        const balance = await this.publicClient.getBalance({ address: getAddress(walletAddress) });
+        return formatUnits(balance, ETHEREUM.native_currency.decimals);
+    }
+    
+    async getTokenBalance(walletAddress: string, contractAddress: string): Promise<string> {
+        const balanceWei = await this.getTokenBalanceOf(walletAddress, contractAddress);
+        const decimals = await this.getTokenDecimals(contractAddress);
+        return formatUnits(balanceWei, decimals);
+    }
+    
+    async getTokenBalanceOf(walletAddress: string, contractAddress: string): Promise<bigint> {
+        return await this.publicClient.readContract({
+            address: getAddress(contractAddress),
+            abi,
+            functionName: 'balanceOf',
+            args: [getAddress(walletAddress)],
+        }) as bigint;
+    }
+    
+    async getTokenDecimals(contractAddress: string): Promise<number> {
+        return await this.publicClient.readContract({
+            address: getAddress(contractAddress),
+            abi,
+            functionName: 'decimals',
+        }) as number;
+    }
+    
+    isEthAddress(address: string): boolean {
+        return isAddress(address);
+    }
 }
-
-async function getTokenBalance(walletAddress: string, contractAddress: string): Promise<string> {
-    const balanceWei = await getTokenBalanceOf(walletAddress, contractAddress);
-    const decimals = await getTokenDecimals(contractAddress);
-    return formatUnits(balanceWei, decimals);
-}
-
-async function getTokenBalanceOf(walletAddress: string, contractAddress: string): Promise<bigint> {
-    return await publicClient.readContract({
-        address: getAddress(contractAddress),
-        abi,
-        functionName: 'balanceOf',
-        args: [getAddress(walletAddress)],
-    }) as bigint;
-}
-
-async function getTokenDecimals(contractAddress: string): Promise<number> {
-    return await publicClient.readContract({
-        address: getAddress(contractAddress),
-        abi,
-        functionName: 'decimals',
-    }) as number;
-}
-
-function isEthAddress(address: string): boolean {
-    return isAddress(address);
-}
-
-export { getEthBalance, getTokenBalance, getTokenDecimals, isEthAddress, getContractAddress, getCoinIdFromSymbol, isNative, generateEthereumAddress };
