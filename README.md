@@ -201,6 +201,10 @@ The Crypto Portfolio Tracker backend provides a set of RESTful API endpoints to 
     }
     ```
 
+### Swagger documentation
+- **GET /api-docs**
+  - Description: Swagger documentation of all endpoints for crypto portfolio tracker backend
+
 
 </details>
 
