@@ -132,6 +132,78 @@ npm run start
 ```
 This will launch the server using the compiled JavaScript code from the `/dist` directory, allowing you to run the project in a production environment.
 
+## API Endpoints
+
+The Crypto Portfolio Tracker backend provides a set of RESTful API endpoints to interact with the system. Below is a list of available endpoints and their descriptions:
+
+
+
+<details>
+  <summary>Click to expand!</summary>
+
+### Balances
+- **GET /blockchains/{blockchain}/balances/{address}**
+  - Description: Get the balances, of native currency and fungible tokens, of an address on a blockchain (e.g. Ethereum, Tron, etc.)
+  - Parameters:
+    - __blockchain__: The name of the blockchain (e.g. ethereum, tron, ripple and solana.)
+    - __address__: The address on the blockchain
+  - Response:
+    ```json
+    {
+      "trxBalance": "string",
+      "tokenBalances": [
+          {
+              "balance": "string",
+              "symbol": "string",
+              "contractAddress": "string",
+              "decimals": "number"
+          }
+      ]
+    }
+    ```
+
+### Prices
+- **GET /blockchains/{blockchain}/prices/{symbol}**
+  - Description: Get the price of a token on a blockchain (e.g. Ethereum, Tron, etc.)
+  - Parameters:
+    - __blockchain__: The name of the blockchain (e.g. ethereum, tron, ripple and solana.)
+    - __symbol__: The symbol of the token on a blockchain
+  - Response:
+    ```json
+    {
+        "symbol": "string",
+        "price": "number",
+        "currency": "string"
+    }
+    ```
+
+### Portfolio
+- **GET /blockchains/{blockchain}/portfolio/{address}**
+  - Description: Get the portfolio of an address on a blockchain (e.g. Ethereum, Tron, etc.)
+  - Parameters:
+    - __blockchain__: The name of the blockchain (e.g. ethereum, tron, ripple and solana.)
+    - __address__: The address on the blockchain
+  - Response:
+    ```json
+    {
+        "address": "string",
+        "nativeBalance": "string",
+        "nativeBalanceValue": "string",
+        "tokenBalanceValues": [
+            {
+                "balance": "string",
+                "symbol": "string",
+                "contractAddress": "string",
+                "decimals": "number",
+                "value": "number"
+            }
+        ]
+    }
+    ```
+
+
+</details>
+
 ## Features
 
 

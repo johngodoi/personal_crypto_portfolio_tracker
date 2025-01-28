@@ -1,31 +1,27 @@
-import express, { Request, Response } from 'express';
-import { getBalances } from './presentation/controllers/get-balances';
-import { getPrices } from './presentation/controllers/get-prices';
-import { getPortfolio } from './presentation/controllers/get-portfolio';
-import { getAddresses } from './presentation/controllers/get-addresses';
-
+import express from 'express';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+import router from './presentation/routes';
 
 const app = express();
 const port = process.env.EXPRESS_PORT || 3000;
-  
-app.get('/blockchains/:blockchain/balances/:address', async (req: Request, res: Response) => {
-    return await getBalances(req, res);
-});
+const options = {
+    definition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'Crypto Portfolio Tracker',
+        version: '0.0.1',
+        description: 'API for Crypto Portfolio Tracker backend',
+      },
+    },
+    apis: ['./src/presentation/routes.ts'],
+  };
+const swaggerDocument = swaggerJsdoc(options);
 
-app.get('/blockchains/:blockchain/prices/:symbol', async (req: Request, res: Response) => {
-    return await getPrices(req, res);
-});
-
-app.get('/blockchains/:blockchain/portfolio/:address', async (req: Request, res: Response) => {
-    return await getPortfolio(req, res);
-});
-
-app.get("/addresses", async (req: Request, res: Response) => {
-    return await getAddresses(req, res);
-});
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(router);
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
-
 export default app;

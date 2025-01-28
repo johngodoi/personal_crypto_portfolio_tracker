@@ -1,6 +1,6 @@
 {
   "name": "personal_crypto_portfolio_tracker",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Build an application (web or mobile) that allows users to track their crypto holdings across multiple exchanges and wallets. Include features like portfolio value calculation, profit/loss tracking, transaction history, and price alerts.",
   "main": "index.js",
   "scripts": {
@@ -18,6 +18,8 @@
     "@types/node": "^22.10.7",
     "@types/node-fetch": "^2.6.12",
     "@types/supertest": "^6.0.2",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.7",
     "chai": "^5.1.2",
     "mocha": "^11.1.0",
     "nodemon": "^3.1.9",
@@ -32,6 +34,8 @@
     "dotenv": "^16.4.7",
     "ed25519-hd-key": "^1.3.0",
     "express": "^4.21.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "tronweb": "^6.0.1",
     "viem": "^2.22.11",
     "xrpl": "^4.1.0"
