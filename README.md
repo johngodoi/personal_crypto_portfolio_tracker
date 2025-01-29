@@ -1,4 +1,4 @@
-[![Run Tests](https://github.com/johngodoi/personal_crypto_portfolio_tracker/actions/workflows/test.yml/badge.svg)](https://github.com/johngodoi/personal_crypto_portfolio_tracker/actions/workflows/test.yml)
+<!-- [![Run Tests](https://github.com/johngodoi/personal_crypto_portfolio_tracker/actions/workflows/test.yml/badge.svg)](https://github.com/johngodoi/personal_crypto_portfolio_tracker/actions/workflows/test.yml) -->
 # Crypto Portfolio Tracker
 
 ## Overview
