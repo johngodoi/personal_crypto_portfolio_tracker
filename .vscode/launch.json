@@ -10,7 +10,7 @@
           "-r", "dotenv/config",
           "--require", "ts-node/register",
           "--timeout", "10000",
-          "${workspaceFolder}/tests/intex.test.ts"
+          "${workspaceFolder}/tests/index.test.ts"
         ],
         "internalConsoleOptions": "openOnSessionStart",
         "skipFiles": [
