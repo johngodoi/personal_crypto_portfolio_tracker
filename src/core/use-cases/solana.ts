@@ -3,12 +3,10 @@ import { AddressBalances, TokenBalance } from "../entities/token";
 import { SolanaDriver } from "../../shared/drivers/solana";
 import { getPrice } from "../../shared/gateways/price";
 import { UseCase } from "./interface";
+import { env } from "../../shared/config/env";
 
 
 export class SolanaUseCase implements UseCase {
-
-    private blockchain: string = "solana";
-    private nativeCurrency: string = "sol";
 
     constructor(private driver: SolanaDriver) {}
     
@@ -24,9 +22,9 @@ export class SolanaUseCase implements UseCase {
         return this.driver.isSolanaAddress(walletAddress);
     }
 
-    async getPortfolio(walletAddress: string, fiat: string = "usd"): Promise<Portfolio> {
+    async getPortfolio(walletAddress: string, fiat: string = env.CURRENCY): Promise<Portfolio> {
         const addressBalances = await this.getAddressBalances(walletAddress);
-        const nativeTokenId = this.driver.getCoinIdFromSymbol(this.nativeCurrency);
+        const nativeTokenId = this.driver.getCoinIdFromSymbol(this.driver.getNativeCurrencyName().toLowerCase());
         const nativeBalanceValue = Number(addressBalances.nativeBalance) * (await getPrice(nativeTokenId))!;
 
         const tokenBalanceValues = await Promise.all(addressBalances.tokenBalances!.map(async (tokenBalance) => {
@@ -70,6 +68,6 @@ export class SolanaUseCase implements UseCase {
     async getAddressBalances(walletAddress: string): Promise<AddressBalances> {
         const nativeBalance = (await this.driver.getBalance(walletAddress)).toString();
         const tokenBalances = await this.getTokenBalances(walletAddress);
-        return { blockchain: this.blockchain, nativeBalance, tokenBalances};
+        return { blockchain: this.driver.getBlockchainName().toLowerCase(), nativeBalance, tokenBalances};
     }
 }

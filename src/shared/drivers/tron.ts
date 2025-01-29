@@ -4,6 +4,15 @@ import { TRON } from '../../../config/blockchains.json';
 
 export class TronDriver {
   constructor(private tronWeb: TronWeb) {}
+
+  getNativeCurrencyName(): string {
+      return TRON.native_currency.symbol;
+  }
+
+  getBlockchainName(): string {
+      return TRON.name;
+  }
+
   generateTronAddress(mnemonic: string): string {
     try {
       const account = tronweb.utils.accounts.generateAccountWithMnemonic(mnemonic);

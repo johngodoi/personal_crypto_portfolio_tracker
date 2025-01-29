@@ -3,11 +3,9 @@ import { EthereumDriver } from "../../shared/drivers/ethereum";
 import { AddressBalances, TokenBalance } from "../entities/token";
 import { getPrice } from "../../shared/gateways/price";
 import { UseCase } from "./interface";
+import { env } from "../../shared/config/env";
 
 export class EthereumUseCase implements UseCase {
-
-    private blockchain: string = "ethereum";
-    private nativeCurrency: string = "eth";
 
     constructor(private driver: EthereumDriver, private tokenList: string[]){}
     
@@ -23,9 +21,9 @@ export class EthereumUseCase implements UseCase {
         return this.driver.isEthAddress(walletAddress);
     }
 
-    async getPortfolio(walletAddress: string, fiat:string = "usd"): Promise<Portfolio> {
+    async getPortfolio(walletAddress: string, fiat:string = env.CURRENCY): Promise<Portfolio> {
         const addressBalances = await this.getAddressBalances(walletAddress);
-        const nativeTokenId = this.driver.getCoinIdFromSymbol(this.nativeCurrency);
+        const nativeTokenId = this.driver.getCoinIdFromSymbol(this.driver.getNativeCurrencyName().toLowerCase());
         const nativeBalanceValue = Number(addressBalances.nativeBalance) * (await getPrice(nativeTokenId))!;
     
         const tokenBalanceValues = await Promise.all(addressBalances.tokenBalances.map(async (tokenBalance) => {
@@ -71,7 +69,7 @@ export class EthereumUseCase implements UseCase {
     async getAddressBalances(walletAddress: string): Promise< AddressBalances> {
         const nativeBalance = await this.driver.getBalance(walletAddress);
         const tokenBalances = await this.getTokenBalances(walletAddress);
-        return { blockchain: this.blockchain, nativeBalance, tokenBalances} as AddressBalances;
+        return { blockchain: this.driver.getBlockchainName().toLowerCase(), nativeBalance, tokenBalances} as AddressBalances;
     }
 
 }

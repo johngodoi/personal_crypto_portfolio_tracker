@@ -8,6 +8,14 @@ export class RippleDriver {
     this.client = client;
   }
 
+  getNativeCurrencyName(): string {
+      return RIPPLE.native_currency.symbol;
+  }
+
+  getBlockchainName(): string {
+      return RIPPLE.name;
+  }
+
   generateRippleAddress(passphrase: string): string {
     try {
         const wallet = Wallet.fromMnemonic(passphrase); 

@@ -1,5 +1,6 @@
 {
     "ETHEREUM": {
+        "name": "ETHEREUM",
         "native_currency": {
             "name": "Ether",
             "symbol": "ETH",
@@ -22,6 +23,7 @@
         }
     },
     "SOLANA": {
+        "name": "SOLANA",
         "native_currency": {
             "name": "Solana",
             "symbol": "SOL",
@@ -40,6 +42,7 @@
         }
     },
     "RIPPLE": {
+        "name": "RIPPLE",
         "native_currency": {
             "name": "XRP",
             "symbol": "XRP",
@@ -54,6 +57,7 @@
         }
     },
     "TRON": {
+        "name": "TRON",
         "native_currency": {
             "name": "TRX",
             "symbol": "TRX",

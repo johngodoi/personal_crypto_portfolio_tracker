@@ -8,6 +8,15 @@ import { FungibleTokens } from '../../core/entities/token';
 export class SolanaDriver {
 
   constructor(private connection: Connection) {}
+
+  getNativeCurrencyName(): string {
+      return SOLANA.native_currency.symbol;
+  }
+
+  getBlockchainName(): string {
+      return SOLANA.name;
+  }
+
   async generateSolanaAddress(mnemonic: string): Promise<string> {
     const seed = await bip39.mnemonicToSeed(mnemonic);
     const derivedSeed = derivePath("m/44'/501'/0'/0'", seed.toString('hex')).key;

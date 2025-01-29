@@ -12,6 +12,14 @@ export class EthereumDriver {
         this.publicClient = publicClient;
     }
 
+    getNativeCurrencyName(): string {
+        return ETHEREUM.native_currency.symbol;
+    }
+
+    getBlockchainName(): string {
+        return ETHEREUM.name;
+    }
+
     generateEthereumAddress(mnemonic: string): string {
         return mnemonicToAccount(mnemonic).address;
     }
