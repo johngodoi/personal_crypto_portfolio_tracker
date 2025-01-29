@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { UseCase } from '../../core/use-cases/interface';
 import { AddressesConfig } from '../../core/entities/addresses';
-import { loadAddresses } from '../../core/use-cases/config';
+import { loadAddressesConfig } from '../../core/use-cases/config';
 
 
 export class AddressesController{
@@ -10,7 +10,7 @@ export class AddressesController{
     
     async getAddresses(req: Request, res: Response) {
         
-        const addressesConfig: AddressesConfig | null = await loadAddresses();
+        const addressesConfig: AddressesConfig | null = await loadAddressesConfig();
         if(addressesConfig) {
             res.json(addressesConfig);
             return;

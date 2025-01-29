@@ -2,9 +2,12 @@ import { AddressesConfig } from "../entities/addresses";
 import * as path from "path";
 import * as fs from 'fs';
 
-async function loadAddresses(): Promise<AddressesConfig | null> {
+
+const CONFIG_ADDRESSES_PATH = process.env.CONFIG_ADDRESSES_PATH;
+
+async function loadAddressesConfig(): Promise<AddressesConfig | null> {
     try {
-        const addressesConfigPath = path.resolve(__dirname, "../../../config/addresses.json");
+        const addressesConfigPath = (CONFIG_ADDRESSES_PATH) ? CONFIG_ADDRESSES_PATH: path.resolve(__dirname, '../../../config/addresses.json');
         const data = fs.readFileSync(addressesConfigPath, 'utf8');
         const addressesConfig: AddressesConfig = JSON.parse(data);
         return addressesConfig;    
@@ -14,4 +17,4 @@ async function loadAddresses(): Promise<AddressesConfig | null> {
       }
 }
 
-export { loadAddresses };
+export { loadAddressesConfig };
