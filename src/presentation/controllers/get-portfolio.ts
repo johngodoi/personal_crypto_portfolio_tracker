@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { UseCase } from '../../core/use-cases/interface';
+import { env } from '../../shared/config/env';
 
 
 export class PortfolioController{
@@ -19,7 +20,7 @@ export class PortfolioController{
             return;
         }
         try {
-                const portfolio = await useCase.getPortfolio(walletAddress, "usd");
+                const portfolio = await useCase.getPortfolio(walletAddress, env.CURRENCY);
                 res.json(portfolio);
         }
         catch (error: any) {

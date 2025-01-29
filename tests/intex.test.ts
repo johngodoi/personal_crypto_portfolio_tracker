@@ -2,9 +2,10 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import request from 'supertest';
 import app from '../src/index';
+import { env } from '../src/shared/config/env';
 
 describe('GET /balances', () => {
-    let walletAddress = process.env.TEST_WALLET_ADDRESS;
+    let walletAddress = env.TEST_WALLET_ADDRESS;
 
     it("should return 400 if the wallet address is invalid", async () => {
         const res = await request(app).get('/balances/invalid-wallet-address');

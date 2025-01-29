@@ -1,8 +1,9 @@
-const COINGECKO_BASE_URL = process.env.COINGECKO_BASE_URL;
+import { env } from "../config/env";
+
 
 async function getPrice(tokenId: string, currency: string = 'usd'): Promise<number | null> {
     try {
-        const url = `${COINGECKO_BASE_URL}/simple/price?ids=${tokenId}&vs_currencies=${currency}`
+        const url = `${env.COINGECKO_BASE_URL}/simple/price?ids=${tokenId}&vs_currencies=${currency}`
         const priceResponse = await fetch(url);
         const priceData = await priceResponse.json();
 

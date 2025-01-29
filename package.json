@@ -40,6 +40,7 @@
     "tronweb": "^6.0.1",
     "typescript-json-schema": "^0.65.1",
     "viem": "^2.22.11",
-    "xrpl": "^4.1.0"
+    "xrpl": "^4.1.0",
+    "zod": "^3.24.1"
   }
 }

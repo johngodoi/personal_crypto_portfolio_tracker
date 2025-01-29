@@ -70,7 +70,7 @@ export class SolanaDriver {
     address: string
   ): Promise<number> {
       const balance = await this.connection.getBalance(new PublicKey(address));
-      return balance / Math.pow(10, SOLANA.native_currency.decimals); // Convert from lamports to SOL
+      return balance / Math.pow(10, SOLANA.native_currency.decimals);
   }
 
   async getSolTokenBalance(
@@ -80,7 +80,7 @@ export class SolanaDriver {
       if (accountInfo && accountInfo.data) {
         const buffer = Buffer.from(accountInfo.data);
         const amount = buffer.readUInt32LE(8);
-        return amount / Math.pow(10, 6); // Convert from lamports to USDT
+        return amount / Math.pow(10, 6); // FIXME: Convertion from lamports to USDT
       }
       return 0;
   }

@@ -1,13 +1,13 @@
 import { AddressesConfig } from "../entities/addresses";
 import * as path from "path";
 import * as fs from 'fs';
+import { env } from "../../shared/config/env";
 
-
-const CONFIG_ADDRESSES_PATH = process.env.CONFIG_ADDRESSES_PATH;
 
 async function loadAddressesConfig(): Promise<AddressesConfig | null> {
     try {
-        const addressesConfigPath = (CONFIG_ADDRESSES_PATH) ? CONFIG_ADDRESSES_PATH: path.resolve(__dirname, '../../../config/addresses.json');
+        const configAddressesPath = env.CONFIG_ADDRESSES_PATH;
+        const addressesConfigPath = (configAddressesPath) ? configAddressesPath: path.resolve(__dirname, env.CONFIG_ADDRESSES_PATH_PATTERN);
         const data = fs.readFileSync(addressesConfigPath, 'utf8');
         const addressesConfig: AddressesConfig = JSON.parse(data);
         return addressesConfig;    

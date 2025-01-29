@@ -8,10 +8,12 @@ import { Connection } from '@solana/web3.js';
 import { SolanaDriver } from './solana';
 import { TronWeb } from 'tronweb';
 import { TronDriver } from './tron';
+import { env } from '../config/env';
+
 
 function createEthereumDriver() {
-  const alchemyApiKey = process.env.ALCHEMY_API_KEY;
-  const alchemyRpcUrl = `${process.env.ALCHEMY_BASE_URL}/${alchemyApiKey}`;
+  const alchemyApiKey = env.ALCHEMY_API_KEY;
+  const alchemyRpcUrl = `${env.ETHEREUM_RPC_BASE_URL}/${alchemyApiKey}`;
   const publicClient = createPublicClient({
     chain: mainnet,
     transport: http(alchemyRpcUrl),
@@ -20,20 +22,20 @@ function createEthereumDriver() {
 }
 
 function createRippleDriver() {
-  const client = new Client('wss://s1.ripple.com');
+  const client = new Client(env.RIPPLE_RPC_BASE_URL);
   return new RippleDriver(client);
 }
 
 function createSolanaDriver() {
-  const connection = new Connection('https://api.mainnet-beta.solana.com'); 
+  const connection = new Connection(env.SOLANA_RPC_BASE_URL); 
   return new SolanaDriver(connection);
 }
 
 function createTronDriver() {
   const tronWeb = new TronWeb({
-      fullNode: 'https://api.trongrid.io',
-      solidityNode: 'https://api.trongrid.io',
-      fullHost: 'https://api.trongrid.io',
+      fullNode: env.TRON_RPC_BASE_URL,
+      solidityNode: env.TRON_RPC_BASE_URL,
+      fullHost: env.TRON_RPC_BASE_URL,
   });
   return new TronDriver(tronWeb);
 }

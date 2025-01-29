@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { UseCase } from '../../core/use-cases/interface';
 import { AddressesConfig } from '../../core/entities/addresses';
 import { loadAddressesConfig } from '../../core/use-cases/config';
+import { env } from '../../shared/config/env';
 
 
 export class AddressesController{
@@ -16,7 +17,7 @@ export class AddressesController{
             return;
         }
 
-        const passphrase = process.env.MNEMONIC_PASSPHRASE;
+        const passphrase = env.MNEMONIC_PASSPHRASE;
         if (!passphrase) {
             res.status(500).json({ error: 'Mnemonic passphrase not set' });
             return;
