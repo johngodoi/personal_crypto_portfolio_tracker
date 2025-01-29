@@ -8,7 +8,7 @@
     "start": "node -r dotenv/config dist/index.js",
     "dev": "nodemon -r dotenv/config --exec ts-node src/index.ts",
     "debug": "nodemon --exec 'node --inspect=0.0.0.0:9229 -r dotenv/config --require ts-node/register src/index.ts'",
-    "test": "npx mocha -r dotenv/config --require ts-node/register tests/**/*.ts"
+    "test": "npx ts-mocha -r dotenv/config tests/**/*.ts"
   },
   "author": "John Henrique Teixeira de Godoi",
   "license": "ISC",
@@ -22,9 +22,10 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.7",
     "chai": "^5.1.2",
-    "mocha": "^11.1.0",
+    "mocha": "^10.8.2",
     "nodemon": "^3.1.9",
     "supertest": "^7.0.0",
+    "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
