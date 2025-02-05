@@ -13,6 +13,10 @@ export class PricesController{
             res.status(400).json({ error: 'Invalid token symbol' });
             return;
         }
+        if(!(blockchain in this.useCases)) {
+            res.status(400).json({ error: `Invalid blockchain ${blockchain}` });
+            return;
+        }
         const useCase = this.useCases[blockchain]();
 
         try {

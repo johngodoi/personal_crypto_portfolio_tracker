@@ -8,11 +8,11 @@ export class BalancesController {
 
     async getBalances(req: Request, res: Response): Promise<void> {
         const blockchain = req.params.blockchain;
-        const useCase = this.useCases[blockchain]();
-        if(!useCase) {
+        if(!(blockchain in this.useCases)) {
             res.status(400).json({ error: `Invalid blockchain ${blockchain}` });
             return;
         }
+        const useCase = this.useCases[blockchain]();
         const walletAddress = req.params.address;
         const isValidAddress = await useCase.isAddressValid(walletAddress as string);
         if (!walletAddress || !isValidAddress) {
