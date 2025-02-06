@@ -1,0 +1,17 @@
+version: "3.9" 
+
+services:
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+      - "9411:9411"
+      - "4317:4317"
+      - "4318:4318"
+    environment:
+      - SPAN_STORAGE_TYPE=badger
+
+volumes:
+  jaeger_data: {}

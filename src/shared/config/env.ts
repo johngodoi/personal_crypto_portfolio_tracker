@@ -10,6 +10,7 @@ const envSchema = z.object({
     APP_DESCRIPTION: z.string().default('API for Crypto Portfolio Tracker backend'),
     NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
     PORT: z.string().default('3000'),
+    OTLP_ENDPOINT: z.string().url().default('http://localhost:4317'),
     CURRENCY: z.string().default('usd'),
     TOKENS_OF_INTEREST: z.string().default(""),
     COINGECKO_BASE_URL: z.string().url().default('https://api.coingecko.com/api/v3'),
