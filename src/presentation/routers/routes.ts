@@ -84,8 +84,8 @@ router.get('/blockchains/:blockchain/balances/:address', async (req: Request, re
  *         description: The price of the token
  *         content:
  *           application/json:
- *         schema:
- *           type: object
+ *             schema:
+ *               type: object
  */
 router.get('/blockchains/:blockchain/prices/:symbol', async (req: Request, res: Response) => {
     const controller = new PricesController(useCases);
@@ -117,8 +117,8 @@ router.get('/blockchains/:blockchain/prices/:symbol', async (req: Request, res: 
  *         description: The portfolio of the address
  *         content:
  *           application/json:
- *         schema:
- *           type: object
+ *             schema:
+ *               type: object
  */
 router.get('/blockchains/:blockchain/portfolio/:address', async (req: Request, res: Response) => {
     const controller = new PortfolioController(useCases);
@@ -135,8 +135,8 @@ router.get('/blockchains/:blockchain/portfolio/:address', async (req: Request, r
  *         description: The list of addresses
  *         content:
  *           application/json:
- *         schema:
- *           type: object
+ *             schema:
+ *               type: object
  */
 router.get("/addresses", async (req: Request, res: Response) => {
     const controller = new AddressesController(useCases);
