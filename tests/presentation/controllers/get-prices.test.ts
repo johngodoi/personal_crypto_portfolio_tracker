@@ -3,7 +3,8 @@ import { Request, Response } from 'express';
 import { PricesController } from '../../../src/presentation/controllers/get-prices';
 import { UseCase } from '../../../src/core/use-cases/interface';
 import sinon from 'sinon';
-import * as priceGateway from '../../../src/shared/gateways/price';
+import { PriceGateway } from '../../../src/shared/gateways/price/interface';
+import { CoingeckoGateway } from '../../../src/shared/gateways/price/coingecko';
 
 describe('PricesController', () => {
     let useCases: { [blockchain: string]: () => UseCase };
@@ -11,7 +12,7 @@ describe('PricesController', () => {
     let req: Partial<Request>;
     let res: Partial<Response>;
     let useCase: Partial<UseCase>;
-    let getPriceStub: sinon.SinonStub;
+    let priceGateway: sinon.SinonStubbedInstance<PriceGateway>;
 
     beforeEach(() => {
         useCase = {
@@ -21,8 +22,9 @@ describe('PricesController', () => {
         useCases = {
             ethereum: () => useCase as UseCase,
         };
+        priceGateway = sinon.createStubInstance(CoingeckoGateway);
 
-        controller = new PricesController(useCases);
+        controller = new PricesController(useCases, priceGateway);
 
         req = {
             params: {
@@ -35,8 +37,6 @@ describe('PricesController', () => {
             status: sinon.stub().returnsThis(),
             json: sinon.stub(),
         };
-
-        getPriceStub = sinon.stub(priceGateway, 'getPrice');
     });
 
     afterEach(() => {
@@ -61,7 +61,7 @@ describe('PricesController', () => {
         const tokenId = 'ethereum';
         const price = 2000;
         (useCase.getCoinIdFromSymbol as sinon.SinonStub).resolves(tokenId);
-        getPriceStub.resolves(price);
+        priceGateway.getPrice.resolves(price);
 
         await controller.getPrices(req as Request, res as Response);
 

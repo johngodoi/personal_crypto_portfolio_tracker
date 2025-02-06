@@ -4,10 +4,13 @@ import { BalancesController } from '../controllers/get-balances';
 import { PricesController } from '../controllers/get-prices';
 import { PortfolioController } from '../controllers/get-portfolio';
 import { AddressesController } from '../controllers/get-addresses';
+import { createPriceGateway } from '../../shared/gateways/price';
   
 
 const router = Router();
-const useCases = createUseCases();
+const priceGateway = createPriceGateway();
+const useCases = createUseCases(priceGateway);
+
 
 /**
  * @swagger
@@ -88,7 +91,7 @@ router.get('/blockchains/:blockchain/balances/:address', async (req: Request, re
  *               type: object
  */
 router.get('/blockchains/:blockchain/prices/:symbol', async (req: Request, res: Response) => {
-    const controller = new PricesController(useCases);
+    const controller = new PricesController(useCases, priceGateway);
     return await controller.getPrices(req, res);
 });
 

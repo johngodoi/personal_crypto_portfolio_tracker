@@ -28,8 +28,8 @@ export class SolanaDriver {
     address: string
   ): Promise<{
       address: string;
-      balance: Number;
-      decimals: Number;
+      balance: number;
+      decimals: number;
   }[]>{
     const tokenAccounts = await this.connection.getParsedTokenAccountsByOwner(
       new PublicKey(address),

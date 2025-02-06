@@ -1,10 +1,10 @@
-import e, { Request, Response } from 'express';
-import { getPrice } from '../../shared/gateways/price';
+import { Request, Response } from 'express';
 import { UseCase } from '../../core/use-cases/interface';
+import { PriceGateway } from '../../shared/gateways/price/interface';
 
 
 export class PricesController{
-    constructor(private useCases: {[blockchain: string]: () => UseCase}) {}
+    constructor(private useCases: {[blockchain: string]: () => UseCase}, private priceGateway: PriceGateway) {}
     
     async getPrices(req: Request, res: Response) {
         const symbol = req.params.symbol;
@@ -21,7 +21,7 @@ export class PricesController{
 
         try {
             const tokenId = await useCase.getCoinIdFromSymbol(symbol);
-            const price = (await getPrice(tokenId))!;
+            const price = (await this.priceGateway.getPrice(tokenId))!;
             res.json({blockchain, symbol, price});
         }
         catch (error: any) {
