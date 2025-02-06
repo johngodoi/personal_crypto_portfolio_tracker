@@ -78,7 +78,7 @@ describe('SolanaUseCase', () => {
         expect(tokenBalances).to.be.empty;
     });
 
-    it.only('should get address balances', async () => {
+    it('should get address balances', async () => {
         const walletAddress = 'sol123';
         const nativeBalance = '10';
         const tokenBalances = [
